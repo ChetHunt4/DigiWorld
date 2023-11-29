@@ -1,4 +1,5 @@
 ﻿using DigiWorldLib.Agent;
+using DigiWorldLib.Agent.Humans;
 using DigiWorldLib.Cluster;
 using System;
 using System.Collections.Generic;
@@ -10,18 +11,18 @@ namespace DigiWorldLib.Simulation
 {
     public class Simulation
     {
-        public ClusterBase World { get; set; }
+        public WorldCluster World { get; set; }
 
-        public Simulation()
+        public Simulation(int width, int height)
         {
-            InitializeWorld();
+            InitializeWorld(width, height);
         }
 
-        public void InitializeWorld()
+        public void InitializeWorld(int width, int height)
         {
-            World = new ClusterBase();
+            World = new WorldCluster(width, height);
             World.Agents = new List<Agent.AgentBase>();
-            var firstAgent = new AgentBase();
+            var firstAgent = new PersonAgent();
             World.Agents.Add(firstAgent);
         }
 
