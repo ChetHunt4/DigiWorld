@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34202.233
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigiWorldLib", "DigiWorldLib\DigiWorldLib.csproj", "{3E83A15D-8152-45A5-A61C-5C681B3DDAEB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigiConsole", "DigiConsole\DigiConsole.csproj", "{BE75B339-BBF0-4F26-9012-ED775D4585C1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3E83A15D-8152-45A5-A61C-5C681B3DDAEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E83A15D-8152-45A5-A61C-5C681B3DDAEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E83A15D-8152-45A5-A61C-5C681B3DDAEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E83A15D-8152-45A5-A61C-5C681B3DDAEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE75B339-BBF0-4F26-9012-ED775D4585C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE75B339-BBF0-4F26-9012-ED775D4585C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE75B339-BBF0-4F26-9012-ED775D4585C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE75B339-BBF0-4F26-9012-ED775D4585C1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A10954DF-493E-4254-A119-D914F4C724DD}
+	EndGlobalSection
+EndGlobal
