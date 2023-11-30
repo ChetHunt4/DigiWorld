@@ -10,7 +10,7 @@ namespace DigiWorldLib.Data
     {
         public int ResourceQuantity { get; set; }
         public float ProcessDifficulty { get; set; }
-        public List<string> Properties { get; set; }
+        public List<ResourceConditionBase> ResourceConditions { get; set; }
 
     }
 }
