@@ -42,7 +42,10 @@ namespace DigiWorldBuilder.Data
 
     public class ExtendedResourceData : ResourceMetaData
     {
-        public SKBitmap originalImage { get; set; }
-        public SKBitmap convertedImage { get; set; }
+        public SKBitmap OriginalImage { get; set; }
+        public SKBitmap ConvertedImage { get; set; }
+        //If true we can preview the data
+        public bool IsPublished { get; set; }
+        public bool IsVisible { get; set; }
     }
 }
