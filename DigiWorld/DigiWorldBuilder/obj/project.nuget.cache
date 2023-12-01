@@ -1,10 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "1PnFxvmSLi7D18ZUMXTXKOzcNx+iJt6xYUAnmXMyU214oXf5eHRktyTQAj8K2Fe1cNJeKIk0stlRHLg3V1EdgA==",
+  "dgSpecHash": "P1VLJe+6yAJ/nSQOf+B1wTNX+v8+eT27RMApLhDWSpWfhv/HPpLpT8cGPty9FERErhvnPxVCOzQH3B3GOt22Zw==",
   "success": true,
   "projectFilePath": "C:\\Users\\cheth\\source\\repos\\DigiWorld\\DigiWorld\\DigiWorldBuilder\\DigiWorldBuilder.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\cheth\\.nuget\\packages\\extended.wpf.toolkit\\4.5.1\\extended.wpf.toolkit.4.5.1.nupkg.sha512",
     "C:\\Users\\cheth\\.nuget\\packages\\faker\\1.2.0\\faker.1.2.0.nupkg.sha512",
+    "C:\\Users\\cheth\\.nuget\\packages\\skiasharp\\2.88.6\\skiasharp.2.88.6.nupkg.sha512",
+    "C:\\Users\\cheth\\.nuget\\packages\\skiasharp.nativeassets.macos\\2.88.6\\skiasharp.nativeassets.macos.2.88.6.nupkg.sha512",
+    "C:\\Users\\cheth\\.nuget\\packages\\skiasharp.nativeassets.win32\\2.88.6\\skiasharp.nativeassets.win32.2.88.6.nupkg.sha512",
     "C:\\Users\\cheth\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.24\\microsoft.windowsdesktop.app.ref.6.0.24.nupkg.sha512",
     "C:\\Users\\cheth\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.24\\microsoft.netcore.app.ref.6.0.24.nupkg.sha512",
     "C:\\Users\\cheth\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.24\\microsoft.aspnetcore.app.ref.6.0.24.nupkg.sha512",

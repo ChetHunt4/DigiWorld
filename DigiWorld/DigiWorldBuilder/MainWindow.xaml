@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DigiWorldBuilder"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="MainWindow" Height="800" Width="1200">
     <DockPanel>
@@ -19,44 +20,60 @@
             </MenuItem>
         </Menu>
         <StackPanel Orientation="Vertical">
-            <StackPanel Orientation="Horizontal" MinWidth="120" MinHeight="600" HorizontalAlignment="Left">
+            <StackPanel Orientation="Horizontal" MinWidth="120" MinHeight="300" HorizontalAlignment="Left">
                 <StackPanel x:Name="pnlNew" Orientation="Vertical">
                     <Label Content="New World" />
-                    <Button Content="Load Color Image..." x:Name="btnLoadColor"/>
+                    <Button Content="Load Color Image..." x:Name="btnLoadColor" Click="btnLoadColor_Click"/>
                     <Label Content="Filename..." x:Name="lblColorFile" />
-                    <Button Content="Load Fresh Water Map..." IsEnabled="False" x:Name="btnLoadFresh" />
-                    <Label Content="Select Color Channel..." />
-                    <ComboBox x:Name="cmbFreshChannel" IsEnabled="False">
-                        <ComboBoxItem Content="R"/>
-                        <ComboBoxItem Content="G" />
-                        <ComboBoxItem Content="B" />
-                    </ComboBox>
+                    <Button Content="Load Fresh Water Map..." IsEnabled="False" x:Name="btnLoadFresh" Click="btnLoadFresh_Click"/>
                     <Label Content="Filename..." x:Name="lblFreshWaterFile" />
-                    <Button Content="Load Ocean Water Map..." IsEnabled="False" x:Name="btnLoadOcean"/>
                     <Label Content="Select Color Channel..." />
-                    <ComboBox x:Name="cmbOceanChannel" IsEnabled="False">
+                    <ComboBox x:Name="cmbFreshChannel" IsEnabled="False" SelectionChanged="cmbFreshChannel_SelectionChanged">
                         <ComboBoxItem Content="R"/>
                         <ComboBoxItem Content="G" />
                         <ComboBoxItem Content="B" />
                     </ComboBox>
+                    <Button Content="Load Ocean Water Map..." IsEnabled="False" x:Name="btnLoadOcean" Click="btnLoadOcean_Click"/>
                     <Label Content="Filename..." x:Name="lblOceanWaterFile" />
-                    <Button Content="Create Resource..." x:Name="btnResource" />
+                    <Label Content="Select Color Channel..." />
+                    <ComboBox x:Name="cmbOceanChannel" IsEnabled="False" SelectionChanged="cmbOceanChannel_SelectionChanged">
+                        <ComboBoxItem Content="R"/>
+                        <ComboBoxItem Content="G" />
+                        <ComboBoxItem Content="B" />
+                    </ComboBox>
+                    <Button Content="Create Resource..." x:Name="btnResource" IsEnabled="False" Click="btnResource_Click"/>
                 </StackPanel>
             </StackPanel>
+            <StackPanel x:Name="pnlNewResource" Visibility="Collapsed">
+                <Label Content="Resource Name:" />
+                <TextBox x:Name="txtResourceName" TextChanged="txtResourceName_TextChanged" />
+                <Button Content="Load Map" x:Name="btnLoadResourceMap" Click="btnLoadResourceMap_Click" IsEnabled="False"/>
+                <Label Content="Filename..." x:Name="lblResourceFilename" />
+                <Label Content="Editor Color" />
+                <xctk:ColorPicker x:Name="cpResourceColor" ShowStandardColors="False" UsingAlphaChannel="False" />
+                <Label Content="Select Color Channel..." />
+                <ComboBox x:Name="cmbResourceChannel">
+                    <ComboBoxItem Content="R" />
+                    <ComboBoxItem Content="G" />
+                    <ComboBoxItem Content="B" />
+                </ComboBox>
+                <Button Content="Add Resource" x:Name="btnAddResource" IsEnabled="False" />
+            </StackPanel>
             <StackPanel VerticalAlignment="Bottom">
-                <Button Content="Color" IsEnabled="False"></Button>
-                <Button Content="Water" IsEnabled="False"></Button>
+                <Button Content="Generate World Json" x:Name="btnGenerate" IsEnabled="False" Margin="0,0,1,20" />
+                <ToggleButton Content="Color" IsEnabled="False" x:Name="btnShowColor" Click="btnShowColor_Click"></ToggleButton>
+                <ToggleButton Content="Water" IsEnabled="False" x:Name="btnShowWater"></ToggleButton>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Content="Ocean" HorizontalAlignment="Center" IsEnabled="False"/>
-                    <Button Content="Fresh" HorizontalAlignment="Center" IsEnabled="False"/>
+                    <ToggleButton Content="Ocean" HorizontalAlignment="Center" IsEnabled="False" x:Name="btnShowOceanWater" />
+                    <ToggleButton Content="Fresh" HorizontalAlignment="Center" IsEnabled="False" x:Name="btnShowFreshWater" />
                 </StackPanel>
                 <Label Content="Resources" HorizontalAlignment="Center" />
                 <ComboBox x:Name="cmbResources" IsEnabled="False"/>
             </StackPanel>
         </StackPanel>
         
-        <StackPanel Orientation="Horizontal">
-            <Image x:Name="iImage" MinWidth="200" MinHeight="200" Stretch="UniformToFill"></Image>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <Image x:Name="iImage" MinWidth="200" MinHeight="200" Stretch="UniformToFill" HorizontalAlignment="Right"></Image>
         </StackPanel>
     </DockPanel>
 </Window>
