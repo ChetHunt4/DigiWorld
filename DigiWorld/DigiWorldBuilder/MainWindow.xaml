@@ -6,15 +6,15 @@
         xmlns:local="clr-namespace:DigiWorldBuilder"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="1200">
+        Title="DigiWorld Builder" Height="800" Width="1200">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
                 <MenuItem Header="_New World" />
-                <MenuItem Header="_Open World"/>
+                <MenuItem Header="_Open World" Click="MenuItem_Click"/>
                 <Separator />
-                <MenuItem Header="_Save World" IsEnabled="False" />
-                <MenuItem Header="_Save World As..." IsEnabled="False" x:Name="mnuSaveAs"/>
+                <MenuItem Header="_Save World" IsEnabled="False" x:Name="mnuSave" Click="mnuSave_Click"/>
+                <MenuItem Header="_Save World As..." IsEnabled="False" x:Name="mnuSaveAs" Click="mnuSaveAs_Click"/>
                 <Separator />
                 <MenuItem Header="_Quit" Click="menuItem_QuitClick"/>
             </MenuItem>

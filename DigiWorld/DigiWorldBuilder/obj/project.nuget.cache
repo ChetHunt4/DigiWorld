@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "P1VLJe+6yAJ/nSQOf+B1wTNX+v8+eT27RMApLhDWSpWfhv/HPpLpT8cGPty9FERErhvnPxVCOzQH3B3GOt22Zw==",
+  "dgSpecHash": "AFq1vX6wKy3bmvxsi2e53MvEPuQa3Q6Z89kRxn0NVgHpmA8+bqkiEtOc7/LOCcwCmkDtJI5YXpscB+Cc5zAHKw==",
   "success": true,
   "projectFilePath": "C:\\Users\\cheth\\source\\repos\\DigiWorld\\DigiWorld\\DigiWorldBuilder\\DigiWorldBuilder.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\cheth\\.nuget\\packages\\extended.wpf.toolkit\\4.5.1\\extended.wpf.toolkit.4.5.1.nupkg.sha512",
     "C:\\Users\\cheth\\.nuget\\packages\\faker\\1.2.0\\faker.1.2.0.nupkg.sha512",
+    "C:\\Users\\cheth\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\cheth\\.nuget\\packages\\skiasharp\\2.88.6\\skiasharp.2.88.6.nupkg.sha512",
     "C:\\Users\\cheth\\.nuget\\packages\\skiasharp.nativeassets.macos\\2.88.6\\skiasharp.nativeassets.macos.2.88.6.nupkg.sha512",
     "C:\\Users\\cheth\\.nuget\\packages\\skiasharp.nativeassets.win32\\2.88.6\\skiasharp.nativeassets.win32.2.88.6.nupkg.sha512",

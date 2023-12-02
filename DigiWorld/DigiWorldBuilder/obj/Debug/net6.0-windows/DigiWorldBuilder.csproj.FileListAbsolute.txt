@@ -45,3 +45,4 @@ C:\Users\cheth\source\repos\DigiWorld\DigiWorld\DigiWorldBuilder\bin\Debug\net6.
 C:\Users\cheth\source\repos\DigiWorld\DigiWorld\DigiWorldBuilder\bin\Debug\net6.0-windows\ru\Xceed.Wpf.AvalonDock.NET5.resources.dll
 C:\Users\cheth\source\repos\DigiWorld\DigiWorld\DigiWorldBuilder\bin\Debug\net6.0-windows\sv\Xceed.Wpf.AvalonDock.NET5.resources.dll
 C:\Users\cheth\source\repos\DigiWorld\DigiWorld\DigiWorldBuilder\bin\Debug\net6.0-windows\zh-Hans\Xceed.Wpf.AvalonDock.NET5.resources.dll
+C:\Users\cheth\source\repos\DigiWorld\DigiWorld\DigiWorldBuilder\bin\Debug\net6.0-windows\Newtonsoft.Json.dll
