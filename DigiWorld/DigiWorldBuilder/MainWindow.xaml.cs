@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -29,35 +30,47 @@ namespace DigiWorldBuilder
         public string ProjectFileName { get; set; }
         public bool needsSave { get; set; }
 
-        private const string FreshWaterRef = "Fresh Water";
-        private const string OceanWaterRef = "Ocean Water";
+        private const string filenameRef = "Filename...";
 
         public MainWindow()
         {
             InitializeComponent();
+            Closing += onClosing;
+        }
+
+        //New File
+        private void MenuItemNew_Click(object sender, RoutedEventArgs e)
+        {
+            if (needsSave)
+            {
+                var saveResult = MessageBox.Show("You have unsaved changes. Are you sure you want to create a new file?", "Unsaved Changes", MessageBoxButton.YesNoCancel);
+                if (saveResult != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+            reset();
         }
 
         //Open File
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        private void MenuItemOpen_Click(object sender, RoutedEventArgs e)
         {
-            
+            if (needsSave)
+            {
+                var saveResult = MessageBox.Show("You have unsaved changes. Are you sure you want to open this file without saving the file first?", "Unsaved Changes", MessageBoxButton.YesNoCancel);
+                if (saveResult != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
             var openDialog = new OpenFileDialog();
             openDialog.Filter = "PRJ Files(*.PRJ)| *.PRJ| All files(*.*) | *.*";
             openDialog.DefaultExt = ".prj";
             var openResult = openDialog.ShowDialog();
             if (openResult == true)
             {
-                btnShowColor.IsEnabled = false;
-                btnShowColor.IsChecked = false;
-                btnShowWater.IsEnabled = false;
-                btnShowWater.IsChecked = false;
-                btnShowFreshWater.IsEnabled = false;
-                btnShowFreshWater.IsChecked = false;
-                btnShowOceanWater.IsEnabled = false;
-                btnShowOceanWater.IsChecked = false;
-                btnShowResource.IsEnabled = false;
-                btnShowResource.IsChecked = false;
-                btnDeleteResource.IsEnabled = false;
+
+                reset();
 
                 var fileString = File.ReadAllText(openDialog.FileName);
                 MetaData = JsonConvert.DeserializeObject<ProjectMetaData>(fileString);
@@ -79,6 +92,7 @@ namespace DigiWorldBuilder
                 if (MetaData?.ResourceMetaData != null && MetaData.ResourceMetaData.Count > 0)
                 {
                     btnGenerate.IsEnabled = true;
+
                     cmbResources.Items.Clear();
                     foreach (var metaData in MetaData.ResourceMetaData)
                     {
@@ -111,42 +125,17 @@ namespace DigiWorldBuilder
                         extData.IsPublished = true;
                         extData.IsVisible = true;
                         ResourceBitmaps.Add(extData.ResourceName, extData);
-                        if (extData.ResourceName == FreshWaterRef)
-                        {
-                            btnShowWater.IsEnabled = true;
-                            btnShowWater.IsChecked = true;
-                            btnShowFreshWater.IsEnabled = true;
-                            btnShowFreshWater.IsChecked = true;
-                            btnLoadFresh.IsEnabled = true;
-                            lblFreshWaterFile.Content = Path.GetFileName(extData.ResourceFilename);
-                            cmbFreshChannel.IsEnabled = true;
-                            cmbFreshChannel.Text = extData.ResourceColorChannel.ToString();
-
-                        }
-                        else if (extData.ResourceName == OceanWaterRef)
-                        {
-                            btnShowWater.IsEnabled = true;
-                            btnShowWater.IsChecked = true;
-                            btnShowOceanWater.IsEnabled = true;
-                            btnShowOceanWater.IsChecked = true;
-                            btnLoadOcean.IsEnabled = true;
-                            lblOceanWaterFile.Content = Path.GetFileName(extData.ResourceFilename);
-                            cmbOceanChannel.IsEnabled = true;
-                            cmbOceanChannel.Text = extData.ResourceColorChannel.ToString();
-                        }
-                        else
-                        {
-                            cmbResources.Items.Add(extData.ResourceName);
-                            cmbResources.IsEnabled = true;
-                            btnShowResource.IsEnabled = true;
-                            btnShowResource.IsChecked = true;
-                            btnDeleteResource.IsEnabled = true;
-                            cmbResources.SelectedIndex = cmbResources.Items.Count - 1;
-                            
-                        }
+                        cmbResources.Items.Add(extData.ResourceName);
+                        cmbResources.IsEnabled = true;
+                        btnShowResource.IsEnabled = true;
+                        btnShowResource.IsChecked = true;
+                        btnDeleteResource.IsEnabled = true;
+                        cmbResources.SelectedIndex = cmbResources.Items.Count - 1;
+                        txtPropertyKey.IsEnabled = true;
+                        txtPropertyValue.IsEnabled = true;
                     }
                 }
-                var combinedImage = CombineImages();
+                var combinedImage = combineImages();
                 iImage.Source = ImageHelper.GetBitmapFromSKBitmap(combinedImage);
                 updateSaveStatus(false);
             }
@@ -182,6 +171,18 @@ namespace DigiWorldBuilder
             Application.Current.Shutdown();
         }
 
+        private void onClosing(object sender, CancelEventArgs e)
+        {
+            if (needsSave)
+            {
+                var saveResult = MessageBox.Show("You have unsaved changes. Are you sure you want to quit?", "Unsaved changes", MessageBoxButton.YesNoCancel);
+                if (saveResult != MessageBoxResult.Yes)
+                {
+                    e.Cancel = true;
+                }
+            }
+        }
+
         //load color map
         private void btnLoadColor_Click(object sender, RoutedEventArgs e)
         {
@@ -194,16 +195,12 @@ namespace DigiWorldBuilder
                 {
                     MetaData = new ProjectMetaData();
                 }
-
-                //iImage.Source = ImageHelper.GetBitmapFromSKBitmap(colorBMP);
                 MetaData.ColorMapFileName = colormapResult.FileName;
                 lblColorFile.Content = Path.GetFileName(MetaData.ColorMapFileName);
                 btnShowColor.IsEnabled = true;
                 btnShowColor.IsChecked = true;
-                btnLoadFresh.IsEnabled = true;
-                btnLoadOcean.IsEnabled = true;
                 checkerBoard = ImageHelper.CreateCheckerboard(1024, 1024, 32, SKColors.DarkBlue, SKColors.Black);
-                SKBitmap bmp = CombineImages();
+                SKBitmap bmp = combineImages();
                 iImage.Source = ImageHelper.GetBitmapFromSKBitmap(bmp);
                 btnResource.IsEnabled = true;
                 updateSaveStatus(true);
@@ -215,133 +212,15 @@ namespace DigiWorldBuilder
             pnlNewResource.Visibility = Visibility.Visible;
         }
 
-        private void btnLoadFresh_Click(object sender, RoutedEventArgs e)
-        {
-            var freshwaterResult = loadImageMap();
-            if (freshwaterResult != null)
-            {
-                if (MetaData.ResourceMetaData == null)
-                {
-                    MetaData.ResourceMetaData = new Dictionary<string, ResourceMetaData>();
-                }
-                SKColor skrepColor = SKColors.Blue;
-                BasicColor repColor = new BasicColor
-                {
-                    Red = skrepColor.Red,
-                    Green = skrepColor.Green,
-                    Blue = skrepColor.Blue
-                };
-                var metaData = new ResourceMetaData
-                {
-                    RepColor = repColor,
-                    ResourceName = FreshWaterRef,
-                    ResourceFilename = freshwaterResult.FileName
-                };
-                if (MetaData.ResourceMetaData.ContainsKey(FreshWaterRef))
-                {
-                    MetaData.ResourceMetaData[FreshWaterRef] = metaData;
-                }
-                else
-                {
-                    MetaData.ResourceMetaData.Add(FreshWaterRef, metaData);
-                }
-                lblFreshWaterFile.Content = Path.GetFileName(freshwaterResult.FileName);
-                cmbFreshChannel.IsEnabled = true;
-                if (ResourceBitmaps == null)
-                {
-                    ResourceBitmaps = new Dictionary<string, ExtendedResourceData>();
-                }
-                ExtendedResourceData newData = new ExtendedResourceData
-                {
-                    SKRepColor = skrepColor,
-                    ResourceFilename = MetaData.ResourceMetaData[FreshWaterRef].ResourceFilename,
-                    ResourceName = MetaData.ResourceMetaData[FreshWaterRef].ResourceName,
-                    OriginalImage = freshwaterResult.Image
-                };
-                if (ResourceBitmaps.ContainsKey(newData.ResourceName))
-                {
-                    ResourceBitmaps[newData.ResourceName] = newData;
-                }
-                else
-                {
-                    ResourceBitmaps.Add(newData.ResourceName, newData);
-                }
-                updateSaveStatus(true);
-            }
-        }
-
-        private void btnLoadOcean_Click(object sender, RoutedEventArgs e)
-        {
-            var oceanwaterResult = loadImageMap();
-            if (oceanwaterResult != null)
-            {
-                if (MetaData.ResourceMetaData == null)
-                {
-                    MetaData.ResourceMetaData = new Dictionary<string, ResourceMetaData>();
-                }
-                SKColor skrepColor = SKColors.DarkBlue;
-                BasicColor repColor = new BasicColor
-                {
-                    Red = skrepColor.Red,
-                    Blue = skrepColor.Blue,
-                    Green = skrepColor.Green
-                };
-                var metaData = new ResourceMetaData
-                {
-                    RepColor = repColor,
-                    ResourceName = OceanWaterRef,
-                    ResourceFilename = oceanwaterResult.FileName
-                };
-                if (MetaData.ResourceMetaData.ContainsKey(OceanWaterRef))
-                {
-                    MetaData.ResourceMetaData[OceanWaterRef] = metaData;
-                }
-                else
-                {
-                    MetaData.ResourceMetaData.Add(OceanWaterRef, metaData);
-                }
-                lblOceanWaterFile.Content = Path.GetFileName(oceanwaterResult.FileName);
-                cmbOceanChannel.IsEnabled = true;
-                if (ResourceBitmaps == null)
-                {
-                    ResourceBitmaps = new Dictionary<string, ExtendedResourceData>();
-
-                }
-                ExtendedResourceData newData = new ExtendedResourceData
-                {
-                    SKRepColor = skrepColor,
-                    ResourceFilename = MetaData.ResourceMetaData[OceanWaterRef].ResourceFilename,
-                    ResourceName = MetaData.ResourceMetaData[OceanWaterRef].ResourceName,
-                    OriginalImage = oceanwaterResult.Image
-                };
-                if (ResourceBitmaps.ContainsKey(newData.ResourceName))
-                {
-                    ResourceBitmaps[newData.ResourceName] = newData;
-                }
-                else
-                {
-                    
-                ResourceBitmaps.Add(newData.ResourceName, newData);
-                }
-                updateSaveStatus(true);
-            }
-        }
-
         private void btnLoadResourceMap_Click(object sender, RoutedEventArgs e)
         {
             var resourceResult = loadImageMap();
             if (resourceResult != null)
             {
-                //var selectedColor = cpResourceColor.SelectedColor;
-                //if (!selectedColor.HasValue)
-                //{
-                //    selectedColor = Colors.White;
-                //}
                 var data = new ExtendedResourceData
                 {
                     ResourceName = txtResourceName.Text,
                     ResourceFilename = resourceResult.FileName,
-                    //RepColor = new SKColor(selectedColor.Value.R, selectedColor.Value.G, selectedColor.Value.B),
                     OriginalImage = resourceResult.Image
                 };
 
@@ -374,97 +253,6 @@ namespace DigiWorldBuilder
             }
         }
 
-        private void cmbFreshChannel_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            SKColorChannel selectedChannel = SKColorChannel.R;
-            switch (cmbFreshChannel.SelectedValue.ToString())
-            {
-                case "R":
-                    selectedChannel = SKColorChannel.R;
-                    break;
-                case "G":
-                    selectedChannel = SKColorChannel.G;
-                    break;
-                case "B":
-                    selectedChannel = SKColorChannel.B;
-                    break;
-            }
-            btnShowWater.IsEnabled = true;
-            ExtendedResourceData data = ResourceBitmaps[FreshWaterRef];
-            data.SKResourceColorChannel = selectedChannel;
-            data.ConvertedImage = ImageHelper.CreateBitmapFromMask(data.OriginalImage, data.SKResourceColorChannel, data.SKRepColor);
-            data.IsPublished = true;
-            data.IsVisible = true;
-            btnShowFreshWater.IsEnabled = true;
-            btnShowWater.IsChecked = true;
-            btnShowFreshWater.IsChecked = true;
-            SKBitmap compiled = CombineImages();
-            iImage.Source = ImageHelper.GetBitmapFromSKBitmap(compiled);
-            ResourceBitmaps[FreshWaterRef] = data;
-            var metaData = MetaData.ResourceMetaData[FreshWaterRef];
-            ColorChannel repChannel = ColorChannel.R;
-            switch (selectedChannel)
-            {
-                case SKColorChannel.R:
-                    repChannel = ColorChannel.R;
-                    break;
-                case SKColorChannel.G:
-                    repChannel = ColorChannel.G;
-                    break;
-                case SKColorChannel.B:
-                    repChannel = ColorChannel.B;
-                    break;
-            }
-            metaData.ResourceColorChannel = repChannel;
-            MetaData.ResourceMetaData[FreshWaterRef] = metaData;
-        }
-
-        private void cmbOceanChannel_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            SKColorChannel selectedChannel = SKColorChannel.R;
-            switch (cmbOceanChannel.SelectedValue.ToString())
-            {
-                case "R":
-                    selectedChannel = SKColorChannel.R;
-                    break;
-                case "G":
-                    selectedChannel = SKColorChannel.G;
-                    break;
-                case "B":
-                    selectedChannel = SKColorChannel.B;
-                    break;
-            }
-            btnShowWater.IsEnabled = true;
-            ExtendedResourceData data = ResourceBitmaps[OceanWaterRef];
-            data.SKResourceColorChannel = selectedChannel;
-            data.ConvertedImage = ImageHelper.CreateBitmapFromMask(data.OriginalImage, data.SKResourceColorChannel, data.SKRepColor);
-            data.IsPublished = true;
-            data.IsVisible = true;
-            btnShowOceanWater.IsEnabled = true;
-            btnShowWater.IsChecked = true;
-            btnShowOceanWater.IsChecked = true;
-            SKBitmap compiled = CombineImages();
-            iImage.Source = ImageHelper.GetBitmapFromSKBitmap(compiled);
-            ResourceBitmaps[OceanWaterRef] = data;
-            var metaData = MetaData.ResourceMetaData[OceanWaterRef];
-            ColorChannel repChannel = ColorChannel.R;
-            switch (selectedChannel)
-            {
-                case SKColorChannel.R:
-                    repChannel = ColorChannel.R;
-                    break;
-                case SKColorChannel.G:
-                    repChannel = ColorChannel.G;
-                    break;
-                case SKColorChannel.B:
-                    repChannel = ColorChannel.B;
-                    break;
-            }
-            metaData.ResourceColorChannel = repChannel;
-            MetaData.ResourceMetaData[OceanWaterRef] = metaData;
-        }
-
-
         private void cmbResourceChannel_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SKColorChannel selectedChannel = SKColorChannel.R;
@@ -483,10 +271,8 @@ namespace DigiWorldBuilder
             }
             ExtendedResourceData data = ResourceBitmaps[txtResourceName.Text];
             data.SKResourceColorChannel = selectedChannel;
-            data.ConvertedImage = ImageHelper.CreateBitmapFromMask(data.OriginalImage, data.SKResourceColorChannel, data.SKRepColor);
             ResourceBitmaps[txtResourceName.Text] = data;
             btnAddResource.IsEnabled = true;
-            //MetaData.ResourceMetaData[txtResourceName.Text] = data;
         }
 
         private void cpResourceColor_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
@@ -512,9 +298,7 @@ namespace DigiWorldBuilder
                 data.SKResourceColorChannel = selectedChannel;
                 var selectedColor = cpResourceColor.SelectedColor;
                 data.SKRepColor = new SKColor(selectedColor.Value.R, selectedColor.Value.G, selectedColor.Value.B);
-                data.ConvertedImage = ImageHelper.CreateBitmapFromMask(data.OriginalImage, data.SKResourceColorChannel, data.SKRepColor);
                 ResourceBitmaps[txtResourceName.Text] = data;
-                //MetaData.ResourceMetaData[txtResourceName.Text] = data;
             }
         }
 
@@ -525,15 +309,8 @@ namespace DigiWorldBuilder
             {
 
                 ResourceBitmaps.Remove(txtResourceName.Text);
-                MetaData.ResourceMetaData.Remove(txtResourceName.Text);
             }
-                txtResourceName.Text = "";
-                txtResourceName.IsEnabled = true;
-            btnLoadResourceMap.IsEnabled = false;
-            //cpResourceColor.SelectedColor = Colors.White;
-            cpResourceColor.IsEnabled = false;
-            cmbResourceChannel.IsEnabled = false;
-            lblResourceFilename.Content = "Filename...";
+            resetResourceControls();
         }
 
         private void btnAddResource_Click(object sender, RoutedEventArgs e)
@@ -541,45 +318,40 @@ namespace DigiWorldBuilder
             var data = ResourceBitmaps[txtResourceName.Text];
             data.IsPublished = true;
             data.IsVisible = true;
+            data.ConvertedImage = ImageHelper.CreateBitmapFromMask(data.OriginalImage, data.SKResourceColorChannel, data.SKRepColor);
+            pnlNewResource.Visibility = Visibility.Collapsed;
 
-            pnlNewResource.Visibility= Visibility.Collapsed;
-
-            cpResourceColor.IsEnabled = false;
-            cmbResourceChannel.IsEnabled = false;
-            btnLoadResourceMap.IsEnabled = false;
             ResourceBitmaps[txtResourceName.Text] = data;
             if (MetaData.ResourceMetaData == null)
             {
                 MetaData.ResourceMetaData = new Dictionary<string, ResourceMetaData>();
             }
-
-                //MetaData.ResourceMetaData[txtResourceName.Text] = data;
-                var resourceColorChannel = ColorChannel.R;
-                switch (data.SKResourceColorChannel)
+            var resourceColorChannel = ColorChannel.R;
+            switch (data.SKResourceColorChannel)
+            {
+                case SKColorChannel.R:
+                    resourceColorChannel = ColorChannel.R;
+                    break;
+                case SKColorChannel.G:
+                    resourceColorChannel = ColorChannel.G;
+                    break;
+                case SKColorChannel.B:
+                    resourceColorChannel = ColorChannel.B;
+                    break;
+            }
+            var metaData = new ResourceMetaData
+            {
+                RepColor = new BasicColor
                 {
-                    case SKColorChannel.R:
-                        resourceColorChannel = ColorChannel.R;
-                        break;
-                    case SKColorChannel.G:
-                        resourceColorChannel = ColorChannel.G;
-                        break;
-                    case SKColorChannel.B:
-                        resourceColorChannel = ColorChannel.B;
-                        break;
-                }
-                var metaData = new ResourceMetaData
-                {
-                    RepColor = new BasicColor
-                    {
-                        Red = data.SKRepColor.Red,
-                        Green = data.SKRepColor.Green,
-                        Blue = data.SKRepColor.Blue,
-                    },
-                    ResourceColorChannel = resourceColorChannel,
-                    ResourceFilename = data.ResourceFilename,
-                    ResourceName = data.ResourceName,
-                    Properties = data.Properties
-                };
+                    Red = data.SKRepColor.Red,
+                    Green = data.SKRepColor.Green,
+                    Blue = data.SKRepColor.Blue,
+                },
+                ResourceColorChannel = resourceColorChannel,
+                ResourceFilename = data.ResourceFilename,
+                ResourceName = data.ResourceName,
+                Properties = data.Properties
+            };
             if (MetaData.ResourceMetaData.ContainsKey(txtResourceName.Text))
             {
                 MetaData.ResourceMetaData[txtResourceName.Text] = metaData;
@@ -588,93 +360,26 @@ namespace DigiWorldBuilder
             {
                 MetaData.ResourceMetaData.Add(txtResourceName.Text, metaData);
             }
-            
-            //cmbResources.Items.Add(txtResourceName.Text);
-            var resourceKeys = ResourceBitmaps.Keys;
-            cmbResources.Items.Clear();
-            foreach (var key in resourceKeys)
-            {
-                cmbResources.Items.Add(key);
-            }
-            if (cmbResources.IsEnabled == false)
-            {
-                cmbResources.IsEnabled = true;
-
-            }
+            updateResourceViewControls();
+            resetResourceControls();
             btnShowResource.IsEnabled = true;
             btnShowResource.IsChecked = true;
             btnDeleteResource.IsEnabled = true;
+            txtPropertyKey.IsEnabled = true;
+            txtPropertyValue.IsEnabled = true;
             cmbResources.SelectedIndex = cmbResources.Items.Count - 1;
             //cpResourceColor.SelectedColor = Colors.White;
             txtResourceName.Text = "";
             txtResourceName.IsEnabled = true;
             lblResourceFilename.Content = "Filename...";
-            var compiledImage = CombineImages();
+            var compiledImage = combineImages();
             iImage.Source = ImageHelper.GetBitmapFromSKBitmap(compiledImage);
             updateSaveStatus(true);
         }
 
         private void btnShow_Click(object sender, RoutedEventArgs e)
         {
-            if (btnShowWater.IsChecked == false)
-            {
-                btnShowFreshWater.IsEnabled = false;
-                btnShowOceanWater.IsEnabled = false;
-                if (ResourceBitmaps != null && ResourceBitmaps.Count > 0)
-                {
-                    if (ResourceBitmaps.ContainsKey(FreshWaterRef))
-                    {
-                        var freshwaterdata = ResourceBitmaps[FreshWaterRef];
-                        freshwaterdata.IsVisible = false;
-                        ResourceBitmaps[FreshWaterRef] = freshwaterdata;
-                    }
-                    if (ResourceBitmaps.ContainsKey(OceanWaterRef))
-                    {
-                        var oceanwaterdata = ResourceBitmaps[OceanWaterRef];
-                        oceanwaterdata.IsVisible = false;
-                        ResourceBitmaps[OceanWaterRef] = oceanwaterdata;
-                    }
-                }
-            }
-            else
-            {
-                if (ResourceBitmaps != null && ResourceBitmaps.Count > 0)
-                {
-                    if (ResourceBitmaps.ContainsKey(FreshWaterRef))
-                    {
-                        btnShowFreshWater.IsEnabled = true;
-
-
-                        var freshwaterdata = ResourceBitmaps[FreshWaterRef];
-                        if (btnShowFreshWater.IsChecked == true)
-                        {
-
-                            freshwaterdata.IsVisible = true;
-
-                        }
-                        else
-                        {
-                            freshwaterdata.IsVisible = false;
-                        }
-                        ResourceBitmaps[FreshWaterRef] = freshwaterdata;
-                    }
-                    if (ResourceBitmaps.ContainsKey(OceanWaterRef))
-                    {
-                        btnShowOceanWater.IsEnabled = true;
-                        var oceanwaterdata = ResourceBitmaps[OceanWaterRef];
-                        if (btnShowOceanWater.IsChecked == true)
-                        {
-                            oceanwaterdata.IsVisible = true;
-                        }
-                        else
-                        {
-                            oceanwaterdata.IsVisible = false;
-                        }
-                        ResourceBitmaps[OceanWaterRef] = oceanwaterdata;
-                    }
-                }
-            }
-            var compiledImage = CombineImages();
+            var compiledImage = combineImages();
             iImage.Source = ImageHelper.GetBitmapFromSKBitmap(compiledImage);
         }
 
@@ -684,7 +389,7 @@ namespace DigiWorldBuilder
             var data = ResourceBitmaps[selectedItem];
             data.IsVisible = btnShowResource.IsChecked == true;
             ResourceBitmaps[selectedItem] = data;
-            var image = CombineImages();
+            var image = combineImages();
             iImage.Source = ImageHelper.GetBitmapFromSKBitmap(image);
         }
 
@@ -696,35 +401,14 @@ namespace DigiWorldBuilder
                 var selectedItem = cmbResources.SelectedItem.ToString();
                 ResourceBitmaps.Remove(selectedItem);
                 MetaData.ResourceMetaData.Remove(selectedItem);
-                cmbResources.Items.Clear();
-                if (ResourceBitmaps.Count > 0)
+                updateResourceViewControls();
+                if (cmbResources.IsEnabled = true && cmbResources.Items.Count > 0)
                 {
-                    var resourceList = ResourceBitmaps.Keys.ToList();
-                    //cmbResources.Items.Add(resourceList);
-                    foreach (var item in resourceList)
-                    {
-                        cmbResources.Items.Add(item);
-                    }
                     cmbResources.SelectedIndex = 0;
-                    cmbResources.Text = resourceList[0];
-                    var newSelectedItem = resourceList[0];
-                    var data = ResourceBitmaps[newSelectedItem];
-                    if (data.IsVisible == true)
-                    {
-                        btnShowResource.IsChecked = true;
-                    }
-                    else
-                    {
-                        btnShowResource.IsChecked = false;
-                    }
                 }
-                else
-                {
-                    btnShowResource.IsEnabled = false;
-                    btnDeleteResource.IsEnabled = false;
-                }
-                var image = CombineImages();
+                var image = combineImages();
                 iImage.Source = ImageHelper.GetBitmapFromSKBitmap(image);
+                updateSaveStatus(true);
             }
         }
 
@@ -757,18 +441,31 @@ namespace DigiWorldBuilder
             }
         }
 
-        private SKBitmap CombineImages()
+
+        private void txtProperty_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtPropertyKey.Text) || string.IsNullOrWhiteSpace(txtPropertyValue.Text))
+            {
+                btnAddProperty.IsEnabled = false;
+            }
+            else
+            {
+                btnAddProperty.IsEnabled = true;
+            }
+        }
+
+        
+
+        private SKBitmap combineImages()
         {
             List<SKBitmap> bitmaps = new List<SKBitmap>();
             if (btnShowColor.IsChecked == true)
             {
-            //    //iImage.Source = ImageHelper.GetBitmapFromSKBitmap(colorBMP);
                 bitmaps.Add(colorBMP);
             }
             else
             {
                 bitmaps.Add(checkerBoard);
-            //    //iImage.Source = ImageHelper.GetBitmapFromSKBitmap(checkerBoard);
             }
 
             if (ResourceBitmaps != null && ResourceBitmaps.Count > 0)
@@ -807,18 +504,98 @@ namespace DigiWorldBuilder
         private void updateSaveStatus(bool change = true)
         {
                 mnuSaveAs.IsEnabled = true;
-                if (!string.IsNullOrWhiteSpace(ProjectFileName) && change)
+            if (change)
             {
-                mnuSave.IsEnabled = true;
+                if (!String.IsNullOrWhiteSpace(ProjectFileName))
+                {
+                    mnuSave.IsEnabled = true;
+                }
                 needsSave = true;
             }
-                else
+            else
             {
                 mnuSave.IsEnabled = false;
                 needsSave = false;
             }
         }
 
+        //Clear all graphics and reset control states
+        private void reset()
+        {
+            //Clear data
+            if (MetaData != null && MetaData.ResourceMetaData != null && MetaData.ResourceMetaData.Count > 0)
+            {
+                MetaData.ResourceMetaData.Clear();
+            }
+            if (MetaData == null)
+            {
+                MetaData = new ProjectMetaData();
+            }
+            MetaData.ColorMapFileName = "";
+            if (ResourceBitmaps == null)
+            {
+                ResourceBitmaps = new Dictionary<string, ExtendedResourceData>();
+            }
+            ResourceBitmaps.Clear();
+            //Disable save menu items
+            mnuSave.IsEnabled = false;
+            mnuSaveAs.IsEnabled = false;
+
+            //reset controls
+            btnLoadColor.IsEnabled = true;
+            lblColorFile.Content = filenameRef;
+            btnResource.IsEnabled = false;
+            resetResourceControls();
+            btnShowColor.IsEnabled = false;
+            btnShowColor.IsChecked = false;
+            btnShowResource.IsEnabled = false;
+            btnShowResource.IsChecked = false;
+            btnGenerate.IsEnabled = false;
+            cmbResources.IsEnabled = false;
+            cmbResources.Items.Clear();
+            btnDeleteResource.IsEnabled = false;
+            txtPropertyKey.IsEnabled = false;
+            txtPropertyValue.IsEnabled = false;
+            btnAddProperty.IsEnabled = false;
+            iImage.Source = null;
+            updateSaveStatus(false);
+            mnuSaveAs.IsEnabled = false;
+        }
+
+        private void resetResourceControls()
+        {
+            pnlNewResource.Visibility = Visibility.Collapsed;
+            txtResourceName.Text = "";
+            btnLoadResourceMap.IsEnabled = false;
+            lblResourceFilename.Content = filenameRef;
+            cmbResourceChannel.IsEnabled = false;
+            cpResourceColor.IsEnabled = false;
+            btnAddResource.IsEnabled = false;
+            btnCancelResource.IsEnabled = false;
+        }
+
+        private void updateResourceViewControls()
+        {
+            cmbResources.Items.Clear();
+            if (ResourceBitmaps == null || ResourceBitmaps.Count == 0)
+            {
+                cmbResources.IsEnabled = false;
+            }
+            else
+            {
+                var resourceKeys = ResourceBitmaps.Keys;
+
+                foreach (var key in resourceKeys)
+                {
+                    cmbResources.Items.Add(key);
+                }
+                if (cmbResources.IsEnabled == false)
+                {
+                    cmbResources.IsEnabled = true;
+
+                }
+            }
+        }
 
     }
 }

@@ -10,8 +10,8 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="_New World" />
-                <MenuItem Header="_Open World" Click="MenuItem_Click"/>
+                <MenuItem Header="_New World" Click="MenuItemNew_Click"/>
+                <MenuItem Header="_Open World" Click="MenuItemOpen_Click"/>
                 <Separator />
                 <MenuItem Header="_Save World" IsEnabled="False" x:Name="mnuSave" Click="mnuSave_Click"/>
                 <MenuItem Header="_Save World As..." IsEnabled="False" x:Name="mnuSaveAs" Click="mnuSaveAs_Click"/>
@@ -20,28 +20,12 @@
             </MenuItem>
         </Menu>
         <StackPanel Orientation="Vertical">
-            <StackPanel Orientation="Horizontal" MinWidth="120" MinHeight="300" HorizontalAlignment="Left">
+            <StackPanel Orientation="Horizontal" MinWidth="120" HorizontalAlignment="Left">
                 <StackPanel x:Name="pnlNew" Orientation="Vertical">
                     <Label Content="New World" />
                     <Button Content="Load Color Image..." x:Name="btnLoadColor" Click="btnLoadColor_Click"/>
                     <Label Content="Filename..." x:Name="lblColorFile" />
-                    <Button Content="Load Fresh Water Map..." IsEnabled="False" x:Name="btnLoadFresh" Click="btnLoadFresh_Click"/>
-                    <Label Content="Filename..." x:Name="lblFreshWaterFile" />
-                    <Label Content="Select Color Channel..." />
-                    <ComboBox x:Name="cmbFreshChannel" IsEnabled="False" SelectionChanged="cmbFreshChannel_SelectionChanged" SelectedValuePath="Content">
-                        <ComboBoxItem Content="R"/>
-                        <ComboBoxItem Content="G" />
-                        <ComboBoxItem Content="B" />
-                    </ComboBox>
-                    <Button Content="Load Ocean Water Map..." IsEnabled="False" x:Name="btnLoadOcean" Click="btnLoadOcean_Click"/>
-                    <Label Content="Filename..." x:Name="lblOceanWaterFile" />
-                    <Label Content="Select Color Channel..." />
-                    <ComboBox x:Name="cmbOceanChannel" IsEnabled="False" SelectionChanged="cmbOceanChannel_SelectionChanged" SelectedValuePath="Content">
-                        <ComboBoxItem Content="R"/>
-                        <ComboBoxItem Content="G" />
-                        <ComboBoxItem Content="B" />
-                    </ComboBox>
-                    <Button Content="Create Resource..." x:Name="btnResource" IsEnabled="False" Click="btnResource_Click"/>
+                    <Button Content="Create Resource..." x:Name="btnResource" IsEnabled="False" Click="btnResource_Click" Margin="0,20,0,0"/>
                 </StackPanel>
             </StackPanel>
             <StackPanel x:Name="pnlNewResource" Visibility="Collapsed">
@@ -64,18 +48,24 @@
                 <Label Content="Display Options" />
                 <Button Content="Generate World Json" x:Name="btnGenerate" IsEnabled="False" Margin="0,0,0,20" />
                 <ToggleButton Content="Color" IsEnabled="False" x:Name="btnShowColor" Click="btnShow_Click"></ToggleButton>
-                <ToggleButton Content="Water" IsEnabled="False" x:Name="btnShowWater" Click="btnShow_Click"></ToggleButton>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <ToggleButton Content="Ocean" HorizontalAlignment="Center" IsEnabled="False" x:Name="btnShowOceanWater" Click="btnShow_Click"/>
-                    <ToggleButton Content="Fresh" HorizontalAlignment="Center" IsEnabled="False" x:Name="btnShowFreshWater" Click="btnShow_Click"/>
-                </StackPanel>
                 <Label Content="Resources" HorizontalAlignment="Center" />
                 <ComboBox x:Name="cmbResources" IsEnabled="False" SelectionChanged="cmbResources_SelectionChanged" SelectedValuePath="Content"/>
                 <ToggleButton Content="Show" x:Name="btnShowResource" IsEnabled="False" Click="btnShowResource_Click"/>
                 <Button Content="Delete" x:Name="btnDeleteResource" IsEnabled="False" Click="btnDeleteResource_Click"/>
             </StackPanel>
+            <ListView x:Name="lstProperties" Height="80"/>
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Key:" />
+                    <TextBox x:Name="txtPropertyKey" Width="65" TextChanged="txtProperty_TextChanged" IsEnabled="False"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Value" />
+                    <TextBox x:Name="txtPropertyValue" Width="65" TextChanged="txtProperty_TextChanged" IsEnabled="False"/>
+                </StackPanel>
+            </StackPanel>
+            <Button Content="Add Property" x:Name="btnAddProperty" IsEnabled="False" />
         </StackPanel>
-        
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <Image x:Name="iImage" MinWidth="200" MinHeight="200" Stretch="UniformToFill" HorizontalAlignment="Right"></Image>
         </StackPanel>
