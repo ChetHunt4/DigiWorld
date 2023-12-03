@@ -46,7 +46,7 @@
             </StackPanel>
             <StackPanel VerticalAlignment="Bottom" Margin="0,20,0,0">
                 <Label Content="Display Options" />
-                <Button Content="Generate World Json" x:Name="btnGenerate" IsEnabled="False" Margin="0,0,0,20" />
+                <Button Content="Generate World Json" x:Name="btnGenerate" IsEnabled="False" Margin="0,0,0,20" Click="btnGenerate_Click"/>
                 <ToggleButton Content="Color" IsEnabled="False" x:Name="btnShowColor" Click="btnShow_Click"></ToggleButton>
                 <Label Content="Resources" HorizontalAlignment="Center" />
                 <ComboBox x:Name="cmbResources" IsEnabled="False" SelectionChanged="cmbResources_SelectionChanged" SelectedValuePath="Content"/>

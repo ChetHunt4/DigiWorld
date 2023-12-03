@@ -1,4 +1,5 @@
-﻿using SkiaSharp;
+﻿using DigiWorldLib.World;
+using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.IO.Packaging;
@@ -17,14 +18,6 @@ namespace DigiWorldBuilder.Data
         B
     }
 
-    public class BasicColor
-    {
-        public byte Red { get; set; }
-        public byte Green { get; set; }
-        public byte Blue { get; set; }
-    }
-
-
     public class ProjectMetaData
     {
         public string ColorMapFileName { get; set; }
@@ -37,9 +30,6 @@ namespace DigiWorldBuilder.Data
         public string ResourceFilename { get; set; }
         public ColorChannel ResourceColorChannel { get; set; }
         public BasicColor RepColor { get; set; }
-        //public SKColorChannel ResourceColorChannel { get; set; }
-        //Color to represent this resource as in the editor
-        //public SKColor RepColor { get; set; }
         public Dictionary<string, string> Properties { get; set; }
     }
 

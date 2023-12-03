@@ -1,5 +1,6 @@
 ﻿using DigiWorldBuilder.Data;
 using DigiWorldBuilder.Helpers;
+using DigiWorldLib.World;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using SkiaSharp;
@@ -31,6 +32,8 @@ namespace DigiWorldBuilder
         public bool needsSave { get; set; }
 
         private const string filenameRef = "Filename...";
+
+        private const byte pixelThresholdValue = 100;
 
         public MainWindow()
         {
@@ -171,18 +174,6 @@ namespace DigiWorldBuilder
             Application.Current.Shutdown();
         }
 
-        private void onClosing(object sender, CancelEventArgs e)
-        {
-            if (needsSave)
-            {
-                var saveResult = MessageBox.Show("You have unsaved changes. Are you sure you want to quit?", "Unsaved changes", MessageBoxButton.YesNoCancel);
-                if (saveResult != MessageBoxResult.Yes)
-                {
-                    e.Cancel = true;
-                }
-            }
-        }
-
         //load color map
         private void btnLoadColor_Click(object sender, RoutedEventArgs e)
         {
@@ -203,6 +194,90 @@ namespace DigiWorldBuilder
                 SKBitmap bmp = combineImages();
                 iImage.Source = ImageHelper.GetBitmapFromSKBitmap(bmp);
                 btnResource.IsEnabled = true;
+                updateSaveStatus(true);
+            }
+        }
+
+        private void btnGenerate_Click(object sender, RoutedEventArgs e)
+        {
+            var saveDialog = new SaveFileDialog();
+            saveDialog.Filter = "JSON Files(*.JSON)| *.JSON| All files(*.*) | *.*";
+            saveDialog.DefaultExt = ".json";
+            var saveResult = saveDialog.ShowDialog();
+            if (saveResult == true)
+            {
+                TileWorld tileWorld = new TileWorld
+                {
+                    ColormapFileLocation = MetaData.ColorMapFileName,
+                    Width = 1024,
+                    Height = 1024,
+                    TileSize = 32,
+                    SubtileFileLocations = new List<string>()
+                };
+                tileWorld.SubtileFileLocations = new List<string>();
+                //List<SubTile> subTiles = new List<SubTile>();
+                for (int y = 0; y < tileWorld.Height / tileWorld.TileSize; y++)
+                {
+                    for (int x = 0; x < tileWorld.Width / tileWorld.TileSize; x++)
+                    {
+                        SubTile subTile = new SubTile
+                        {
+                            X = x * tileWorld.TileSize,
+                            Y = y * tileWorld.TileSize,
+                            Resources = new List<TileResource>()
+                        };
+                        if (MetaData.ResourceMetaData != null && MetaData.ResourceMetaData.Count > 0)
+                        {
+                            foreach (var resource in MetaData.ResourceMetaData)
+                            {
+                                TileResource newResource = new TileResource
+                                {
+                                    ResourceName = resource.Key,
+                                    Properties = resource.Value.Properties,
+                                    ResourceRepColor = resource.Value.RepColor,
+                                    ResourceLocations = new List<System.Numerics.Vector2>()
+                                };
+                                for (int resY = y * tileWorld.TileSize; resY < y * tileWorld.TileSize + tileWorld.TileSize; resY++)
+                                {
+                                    for (int resX = x * tileWorld.TileSize; resX < x * tileWorld.TileSize + tileWorld.TileSize; resX++)
+                                    {
+                                        var pixelValue = ResourceBitmaps[resource.Key].OriginalImage.GetPixel(resX, resY);
+                                        switch (resource.Value.ResourceColorChannel)
+                                        {
+                                            case ColorChannel.R:
+                                                if (pixelValue.Red >= pixelThresholdValue)
+                                                {
+                                                    newResource.ResourceLocations.Add(new System.Numerics.Vector2(resX, resY));
+                                                }
+                                                break;
+                                            case ColorChannel.G:
+                                                if (pixelValue.Green >= pixelThresholdValue)
+                                                {
+                                                    newResource.ResourceLocations.Add(new System.Numerics.Vector2(resX, resY));
+                                                }
+                                                break;
+                                            case ColorChannel.B:
+                                                if (pixelValue.Blue >= pixelThresholdValue)
+                                                {
+                                                    newResource.ResourceLocations.Add(new System.Numerics.Vector2(resX, resY));
+                                                }
+                                                break;
+                                        }
+                                    }
+                                }
+                                subTile.Resources.Add(newResource);
+
+                            }
+                        }
+                        string subfilename = Path.Combine(Path.GetDirectoryName(saveDialog.FileName), Path.GetFileNameWithoutExtension(saveDialog.FileName) + "_" + x + "_" + y + ".json");
+                        string subtileData = JsonConvert.SerializeObject(subTile);
+                        File.WriteAllText(subfilename, subtileData);
+                        tileWorld.SubtileFileLocations.Add(subfilename);
+                    }
+                }
+                var tileworldSerialized = JsonConvert.SerializeObject(tileWorld);
+                File.WriteAllText(saveDialog.FileName, tileworldSerialized);
+                MessageBox.Show("Export to Json was successful", "Save successful");
                 updateSaveStatus(true);
             }
         }
@@ -454,7 +529,17 @@ namespace DigiWorldBuilder
             }
         }
 
-        
+        private void onClosing(object sender, CancelEventArgs e)
+        {
+            if (needsSave)
+            {
+                var saveResult = MessageBox.Show("You have unsaved changes. Are you sure you want to quit?", "Unsaved changes", MessageBoxButton.YesNoCancel);
+                if (saveResult != MessageBoxResult.Yes)
+                {
+                    e.Cancel = true;
+                }
+            }
+        }
 
         private SKBitmap combineImages()
         {
@@ -596,6 +681,5 @@ namespace DigiWorldBuilder
                 }
             }
         }
-
     }
 }
