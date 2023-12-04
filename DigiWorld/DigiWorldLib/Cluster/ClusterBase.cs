@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DigiWorldLib.Cluster
 {
-    public class ClusterBase
+    public abstract class ClusterBase
     {
         public ClusterBase? Parent { get; set; }
         public PathwayBase? ParentRoadway { get; set; }
@@ -19,7 +19,7 @@ namespace DigiWorldLib.Cluster
         //Determines the distance based on layer of connected pathways
         public int DistanceMultiplier { get; set; }
 
-        public void Step()
+        public virtual void Step()
         {
 
         }
