@@ -20,13 +20,11 @@
             </MenuItem>
         </Menu>
         <StackPanel Orientation="Vertical">
-            <StackPanel Orientation="Horizontal" MinWidth="120" HorizontalAlignment="Left">
-                <StackPanel x:Name="pnlNew" Orientation="Vertical">
-                    <Label Content="New World" />
-                    <Button Content="Load Color Image..." x:Name="btnLoadColor" Click="btnLoadColor_Click"/>
-                    <Label Content="Filename..." x:Name="lblColorFile" />
-                    <Button Content="Create Resource..." x:Name="btnResource" IsEnabled="False" Click="btnResource_Click" Margin="0,20,0,0"/>
-                </StackPanel>
+            <StackPanel x:Name="pnlNew" Orientation="Vertical">
+                <Label Content="New World" />
+                <Button Content="Load Color Image..." x:Name="btnLoadColor" Click="btnLoadColor_Click"/>
+                <Label Content="Filename..." x:Name="lblColorFile" />
+                <Button Content="Create Resource..." x:Name="btnResource" IsEnabled="False" Click="btnResource_Click" Margin="0,20,0,0"/>
             </StackPanel>
             <StackPanel x:Name="pnlNewResource" Visibility="Collapsed">
                 <Label Content="Resource Name:" />
@@ -44,7 +42,7 @@
                 <Button Content="Add Resource" x:Name="btnAddResource" IsEnabled="False" Click="btnAddResource_Click"/>
                 <Button Content="Cancel Resource" x:Name="btnCancelResource" Click="btnCancelResource_Click"/>
             </StackPanel>
-            <StackPanel VerticalAlignment="Bottom" Margin="0,20,0,0">
+            <StackPanel Margin="0,20,0,0">
                 <Label Content="Display Options" />
                 <Button Content="Generate World Json" x:Name="btnGenerate" IsEnabled="False" Margin="0,0,0,20" Click="btnGenerate_Click"/>
                 <ToggleButton Content="Color" IsEnabled="False" x:Name="btnShowColor" Click="btnShow_Click"></ToggleButton>
@@ -53,7 +51,8 @@
                 <ToggleButton Content="Show" x:Name="btnShowResource" IsEnabled="False" Click="btnShowResource_Click"/>
                 <Button Content="Delete" x:Name="btnDeleteResource" IsEnabled="False" Click="btnDeleteResource_Click"/>
             </StackPanel>
-            <ListView x:Name="lstProperties" Height="80"/>
+            <StackPanel Margin="0,20,0,0">
+            <ListView x:Name="lstProperties" Height="80" SelectionChanged="lstProperties_SelectionChanged"/>
             <StackPanel Orientation="Horizontal">
                 <StackPanel Orientation="Vertical">
                     <Label Content="Key:" />
@@ -64,7 +63,11 @@
                     <TextBox x:Name="txtPropertyValue" Width="65" TextChanged="txtProperty_TextChanged" IsEnabled="False"/>
                 </StackPanel>
             </StackPanel>
-            <Button Content="Add Property" x:Name="btnAddProperty" IsEnabled="False" />
+            <StackPanel Orientation="Horizontal" >
+            <Button Content="Add Property" x:Name="btnAddProperty" IsEnabled="False" Click="btnAddProperty_Click"/>
+            <Button Content="Delete Property" x:Name="btnDeleteProperty" IsEnabled="False" Click="btnDeleteProperty_Click"/>
+            </StackPanel>
+        </StackPanel>
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <Image x:Name="iImage" MinWidth="200" MinHeight="200" Stretch="UniformToFill" HorizontalAlignment="Right"></Image>

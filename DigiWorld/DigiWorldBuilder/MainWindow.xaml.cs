@@ -487,6 +487,41 @@ namespace DigiWorldBuilder
             }
         }
 
+        private void btnAddProperty_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = cmbResources.SelectedItem.ToString();
+            if (MetaData.ResourceMetaData[selectedItem].Properties == null)
+            {
+                MetaData.ResourceMetaData[selectedItem].Properties = new Dictionary<string, string>();
+            }
+            if (MetaData.ResourceMetaData[selectedItem].Properties.ContainsKey(txtPropertyKey.Text))
+            {
+                MetaData.ResourceMetaData[selectedItem].Properties[txtPropertyKey.Text] = txtPropertyValue.Text;
+            }
+            else
+            {
+                MetaData.ResourceMetaData[selectedItem].Properties.Add(txtPropertyKey.Text, txtPropertyValue.Text);
+            }
+            txtPropertyKey.Text = "";
+            txtPropertyValue.Text = "";
+            btnAddProperty.IsEnabled = false;
+            btnDeleteProperty.IsEnabled = false;
+            updateSaveStatus(true);
+            updateResourceProperties();
+        }
+
+
+        private void btnDeleteProperty_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = cmbResources.SelectedItem.ToString();
+            var listviewItem = lstProperties.SelectedItem.ToString();
+            MetaData.ResourceMetaData[selectedItem].Properties.Remove(listviewItem);
+            txtPropertyKey.Text = "";
+            txtPropertyValue.Text = "";
+            updateSaveStatus(true);
+            updateResourceProperties();
+        }
+
         private void cmbResources_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var resourceName = cmbResources.SelectedItem != null ? cmbResources.SelectedItem.ToString() : null;
@@ -502,6 +537,7 @@ namespace DigiWorldBuilder
                     btnShowResource.IsChecked = false;
                 }
             }
+            updateResourceProperties();
         }
 
         private void txtResourceName_TextChanged(object sender, TextChangedEventArgs e)
@@ -526,6 +562,25 @@ namespace DigiWorldBuilder
             else
             {
                 btnAddProperty.IsEnabled = true;
+            }
+        }
+
+        private void lstProperties_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (lstProperties.SelectedItem != null)
+            {
+                var selectedKey = lstProperties.SelectedItem.ToString();
+                var selectedItem = cmbResources.SelectedItem.ToString();
+                if (MetaData.ResourceMetaData[selectedItem].Properties.ContainsKey(selectedKey))
+                {
+                    txtPropertyKey.Text = selectedKey;
+                    txtPropertyValue.Text = MetaData.ResourceMetaData[selectedItem].Properties[selectedKey];
+                    btnDeleteProperty.IsEnabled = true;
+                }
+            }
+            else
+            {
+                btnDeleteProperty.IsEnabled = false;
             }
         }
 
@@ -681,5 +736,19 @@ namespace DigiWorldBuilder
                 }
             }
         }
+
+        private void updateResourceProperties()
+        {
+            lstProperties.Items.Clear();
+            var selectedItem = cmbResources.SelectedItem.ToString();
+            if (MetaData.ResourceMetaData[selectedItem].Properties != null)
+            {
+                foreach (var property in MetaData.ResourceMetaData[selectedItem].Properties)
+                {
+                    lstProperties.Items.Add(property.Key);
+                }
+            }
+        }
+
     }
 }
