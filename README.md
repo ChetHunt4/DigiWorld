@@ -9,4 +9,5 @@ and other topics to create a rich simulation that can simulate the dynamics of v
 
 ## Next Steps
 - Create a new project either in WPF using SkiaSharp or Monogame that can at least allow the simulation to be run/game to be played in 2D.
+- Flesh out agent behavior.
   
