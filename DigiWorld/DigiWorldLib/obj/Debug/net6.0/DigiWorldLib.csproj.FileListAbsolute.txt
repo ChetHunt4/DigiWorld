@@ -1,0 +1,12 @@
+C:\Users\cheth\source\repos\DigiWorld\DigiWorld\DigiWorldLib\bin\Debug\net6.0\DigiWorldLib.deps.json
+C:\Users\cheth\source\repos\DigiWorld\DigiWorld\DigiWorldLib\bin\Debug\net6.0\DigiWorldLib.dll
+C:\Users\cheth\source\repos\DigiWorld\DigiWorld\DigiWorldLib\bin\Debug\net6.0\DigiWorldLib.pdb
+C:\Users\cheth\source\repos\DigiWorld\DigiWorld\DigiWorldLib\obj\Debug\net6.0\DigiWorldLib.csproj.AssemblyReference.cache
+C:\Users\cheth\source\repos\DigiWorld\DigiWorld\DigiWorldLib\obj\Debug\net6.0\DigiWorldLib.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\cheth\source\repos\DigiWorld\DigiWorld\DigiWorldLib\obj\Debug\net6.0\DigiWorldLib.AssemblyInfoInputs.cache
+C:\Users\cheth\source\repos\DigiWorld\DigiWorld\DigiWorldLib\obj\Debug\net6.0\DigiWorldLib.AssemblyInfo.cs
+C:\Users\cheth\source\repos\DigiWorld\DigiWorld\DigiWorldLib\obj\Debug\net6.0\DigiWorldLib.csproj.CoreCompileInputs.cache
+C:\Users\cheth\source\repos\DigiWorld\DigiWorld\DigiWorldLib\obj\Debug\net6.0\DigiWorldLib.dll
+C:\Users\cheth\source\repos\DigiWorld\DigiWorld\DigiWorldLib\obj\Debug\net6.0\refint\DigiWorldLib.dll
+C:\Users\cheth\source\repos\DigiWorld\DigiWorld\DigiWorldLib\obj\Debug\net6.0\DigiWorldLib.pdb
+C:\Users\cheth\source\repos\DigiWorld\DigiWorld\DigiWorldLib\obj\Debug\net6.0\ref\DigiWorldLib.dll

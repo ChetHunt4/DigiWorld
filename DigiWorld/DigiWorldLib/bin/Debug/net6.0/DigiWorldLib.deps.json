@@ -1,0 +1,41 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "DigiWorldLib/1.0.0": {
+        "dependencies": {
+          "Faker": "1.2.0"
+        },
+        "runtime": {
+          "DigiWorldLib.dll": {}
+        }
+      },
+      "Faker/1.2.0": {
+        "runtime": {
+          "lib/Faker.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "DigiWorldLib/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Faker/1.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-FvYt17xHV8R0DGb3O5scLtiWK8RrBuG0feDAWuzdM1l1bS62JOuhNgf4BgJthGFYZrEMKoU5XgCODLtXpS0cvw==",
+      "path": "faker/1.2.0",
+      "hashPath": "faker.1.2.0.nupkg.sha512"
+    }
+  }
+}
