@@ -31,3 +31,5 @@ C:\Users\cheth\source\repos\DigiWorld\DigiWorld\DigiWorldGame\bin\Debug\net6.0\C
 C:\Users\cheth\source\repos\DigiWorld\DigiWorld\DigiWorldGame\bin\Debug\net6.0\Content\Gfx\WorldTiles\GrassTile.xnb
 C:\Users\cheth\source\repos\DigiWorld\DigiWorld\DigiWorldGame\bin\Debug\net6.0\Content\Gfx\WorldTiles\WaterTile.xnb
 C:\Users\cheth\source\repos\DigiWorld\DigiWorld\DigiWorldGame\bin\Debug\net6.0\Content\Shaders\BasicColorRender.xnb
+C:\Users\cheth\source\repos\DigiWorld\DigiWorld\DigiWorldGame\bin\Debug\net6.0\Content\Shaders\ColorOverlay.xnb
+C:\Users\cheth\source\repos\DigiWorld\DigiWorld\DigiWorldGame\bin\Debug\net6.0\Content\Shaders\CombineEffect.xnb

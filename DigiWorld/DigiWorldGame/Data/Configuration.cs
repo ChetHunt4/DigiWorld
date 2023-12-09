@@ -8,6 +8,7 @@ namespace DigiWorldGame.Data
 {
     public class Configuration
     {
+        public string TileName { get; set; }
         public VideoSettings VideoSettings { get; set; }
     }
 

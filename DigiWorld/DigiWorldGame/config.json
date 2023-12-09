@@ -1,4 +1,5 @@
 {
+  "TileName" :  "TileWorld",
   "VideoSettings": {
     "IsFullscreen": "False",
     "Width": 1920,

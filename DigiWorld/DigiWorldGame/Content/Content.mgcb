@@ -55,3 +55,15 @@
 /processorParam:DebugMode=Auto
 /build:Shaders/BasicColorRender.fx
 
+#begin Shaders/ColorOverlay.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Shaders/ColorOverlay.fx
+
+#begin Shaders/CombineEffect.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Shaders/CombineEffect.fx
+

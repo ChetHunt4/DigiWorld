@@ -8,8 +8,12 @@
     <File>C:/Users/cheth/source/repos/DigiWorld/DigiWorld/DigiWorldGame/Content/Gfx/WorldTiles/GrassTile.png</File>
     <File>C:/Users/cheth/source/repos/DigiWorld/DigiWorld/DigiWorldGame/Content/Gfx/WorldTiles/WaterTile.png</File>
     <File>C:/Users/cheth/source/repos/DigiWorld/DigiWorld/DigiWorldGame/Content/Shaders/BasicColorRender.fx</File>
+    <File>C:/Users/cheth/source/repos/DigiWorld/DigiWorld/DigiWorldGame/Content/Shaders/ColorOverlay.fx</File>
+    <File>C:/Users/cheth/source/repos/DigiWorld/DigiWorld/DigiWorldGame/Content/Shaders/CombineEffect.fx</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
