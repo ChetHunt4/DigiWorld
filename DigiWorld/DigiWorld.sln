@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigiWorldLib", "DigiWorldLi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigiConsole", "DigiConsole\DigiConsole.csproj", "{BE75B339-BBF0-4F26-9012-ED775D4585C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigiWorldBuilder", "DigiWorldBuilder\DigiWorldBuilder.csproj", "{13780B54-BC73-41ED-B270-8E85D53BBBD8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigiWorldBuilder", "DigiWorldBuilder\DigiWorldBuilder.csproj", "{13780B54-BC73-41ED-B270-8E85D53BBBD8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigiWorldGame", "DigiWorldGame\DigiWorldGame.csproj", "{0E2C0A5A-0431-44F1-B189-EB8C1FF47F00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigiWorldGame", "DigiWorldGame\DigiWorldGame.csproj", "{0E2C0A5A-0431-44F1-B189-EB8C1FF47F00}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigiWorldTileTool", "DigiWorldTileTool\DigiWorldTileTool.csproj", "{435089B9-0914-4567-A113-4A8982E4197C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{0E2C0A5A-0431-44F1-B189-EB8C1FF47F00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E2C0A5A-0431-44F1-B189-EB8C1FF47F00}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E2C0A5A-0431-44F1-B189-EB8C1FF47F00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{435089B9-0914-4567-A113-4A8982E4197C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{435089B9-0914-4567-A113-4A8982E4197C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{435089B9-0914-4567-A113-4A8982E4197C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{435089B9-0914-4567-A113-4A8982E4197C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

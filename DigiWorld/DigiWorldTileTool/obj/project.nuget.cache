@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "P4SJP0tr+zbKrK0QMWU9MkeR4UpZltKSXI/6YeVURSZWu1ncneVGFcL08FRNTCL/2p3tVlx+kl2K29x2I1Is2w==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\cheth\\source\\repos\\DigiWorld\\DigiWorld\\DigiWorldTileTool\\DigiWorldTileTool.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\cheth\\.nuget\\packages\\skiasharp\\2.88.6\\skiasharp.2.88.6.nupkg.sha512",
+    "C:\\Users\\cheth\\.nuget\\packages\\skiasharp.nativeassets.macos\\2.88.6\\skiasharp.nativeassets.macos.2.88.6.nupkg.sha512",
+    "C:\\Users\\cheth\\.nuget\\packages\\skiasharp.nativeassets.win32\\2.88.6\\skiasharp.nativeassets.win32.2.88.6.nupkg.sha512",
+    "C:\\Users\\cheth\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.24\\microsoft.windowsdesktop.app.ref.6.0.24.nupkg.sha512",
+    "C:\\Users\\cheth\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.24\\microsoft.netcore.app.ref.6.0.24.nupkg.sha512",
+    "C:\\Users\\cheth\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.24\\microsoft.aspnetcore.app.ref.6.0.24.nupkg.sha512",
+    "C:\\Users\\cheth\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.24\\microsoft.netcore.app.host.win-x64.6.0.24.nupkg.sha512"
+  ],
+  "logs": []
+}

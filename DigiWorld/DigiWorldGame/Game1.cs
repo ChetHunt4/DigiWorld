@@ -220,7 +220,7 @@ namespace DigiWorldGame
                 {
                     for (int texx = 0; texx < gridSize; texx++)
                     {
-                        var rectangle = new Rectangle(new Point((int)(texx * spaceX), (int)(texy * spaceY)), new Point((int)spaceX, (int)spaceY));
+                        var rectangle = new Rectangle(new Point((int)(texx * spaceX), (int)(texy * spaceY)), new Point((int)spaceX + 1, (int)spaceY + 1));
                         if (waterResources.Contains(new System.Numerics.Vector2((gridX * gridSize) + texx, (gridY * gridSize) + texy)))
                         {
                             _spriteBatch.Draw(_textures["WaterTile"], rectangle, Color.White);
